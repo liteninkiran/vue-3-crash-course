@@ -24,7 +24,7 @@
         <!-- Is Completed -->
         <input
             type="checkbox"
-            :value="todo.isCompleted"
+            :checked="todo.isCompleted"
             @input="$emit('toggle-complete', index)"
         />
 
