@@ -5,14 +5,23 @@
             type: Object,
             required: true,
         },
+        index: {
+            type: Number,
+            required: true,
+        },
     });
+    defineEmits(['toggle-complete']);
 </script>
 
 <template>
     <li>
 
         <!-- Is Completed -->
-        <input type="checkbox" :value="todo.isCompleted" />
+        <input
+            type="checkbox"
+            :value="todo.isCompleted"
+            @input="$emit('toggle-complete', index)"
+        />
 
         <!-- Todo -->
         <div class="todo">
@@ -21,7 +30,7 @@
             <input v-if="todo.isEditing" type="text" :value="todo.todo" />
 
             <!-- Uneditable Todo -->
-            <span v-else>
+            <span v-else :class="{ 'completed-todo': todo.isCompleted }">
                 {{ todo.todo }}
             </span>
 
@@ -93,6 +102,10 @@
 
         .todo {
             flex: 1;
+
+            .completed-todo {
+                text-decoration: line-through;
+            }
 
             input[type="text"] {
                 width: 100%;

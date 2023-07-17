@@ -14,6 +14,9 @@
             isEditing: null,
         });
     };
+    const toggleTodoComplete = (index) => {
+        todoList.value[index].isCompleted = !todoList.value[index].isCompleted;
+    };
 </script>
 
 <template>
@@ -21,7 +24,12 @@
         <h1>Create Todo</h1>
         <TodoCreator @create-todo="createTodo" />
         <ul class="todo-list" v-if="todoList.length > 0">
-            <TodoItem v-for="todo in todoList" :todo="todo" />
+            <TodoItem
+                v-for="(todo, index) in todoList"
+                :todo="todo"
+                :index="index"
+                @toggle-complete="toggleTodoComplete"
+            />
         </ul>
         <p v-else class="todos-msg">
             <Icon icon="noto-v1:sad-but-relieved-face" />
@@ -43,13 +51,21 @@
             margin-bottom: 16px;
             text-align: center;
         }
-    }
 
-    .todos-msg {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 24px;
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin-top: 24px;
+            gap: 20px;
+        }
+
+        .todos-msg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
     }
 </style>
