@@ -10,7 +10,11 @@
             required: true,
         },
     });
-    defineEmits(['toggle-complete']);
+    defineEmits([
+        'toggle-complete',
+        'edit-todo',
+        'update-todo',
+    ]);
 </script>
 
 <template>
@@ -27,7 +31,12 @@
         <div class="todo">
 
             <!-- Editable Todo -->
-            <input v-if="todo.isEditing" type="text" :value="todo.todo" />
+            <input
+                v-if="todo.isEditing"
+                type="text"
+                :value="todo.todo"
+                @input="$emit('update-todo', $event.target.value, index)"
+            />
 
             <!-- Uneditable Todo -->
             <span v-else :class="{ 'completed-todo': todo.isCompleted }">
@@ -39,13 +48,14 @@
         <!-- Actions -->
         <div class="todo-actions">
 
-            <!-- Is Editing -->
+            <!-- Save -->
             <Icon
                 v-if="todo.isEditing"
                 icon="ph:check-circle"
                 class="icon check-icon"
                 color="41b080"
                 width="22"
+                @click="$emit('edit-todo', index)"
             />
 
             <!-- Edit -->
@@ -55,6 +65,7 @@
                 class="icon edit-icon"
                 color="41b080"
                 width="22"
+                @click="$emit('edit-todo', index)"
             />
 
             <!-- Delete -->
